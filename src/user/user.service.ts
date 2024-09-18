@@ -13,4 +13,12 @@ export class UserService {
       include: {tasks: true }
     })
   }
+
+  getByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        email
+      },
+    })
+  }
 }
