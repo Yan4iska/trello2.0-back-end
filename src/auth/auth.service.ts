@@ -31,6 +31,19 @@ export class AuthService {
     return { user, ...tokens }
   }
 
+  async getNewTokens (refreshToken: string) {
+    const res = await this.jwt.verifyAsync(refreshToken)
+
+    if (!res) throw new UnauthorizedException('Invalid refresh token')
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {password, ...user} = await this.userService.getById(res.id)
+    const tokens = await this.issueTokens(user.id)
+    return {
+      user, ...tokens
+    }
+  }
+
   private issueTokens(userId: string) {
     const data = {id:userId}
 
@@ -57,6 +70,8 @@ export class AuthService {
     return user
   }
 
+
+
   addRefreshTokenToResponse(res:Response, refreshToken: string) {
     const expiresIn = new Date()
     expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN)
@@ -70,11 +85,11 @@ export class AuthService {
     })
   }
 
-  removeRefreshTokenToResponse(res:Response, refreshToken: string) {
+  removeRefreshTokenToResponse(res:Response) {
     const expiresIn = new Date()
     expiresIn.setDate(expiresIn.getDate() + this.EXPIRE_DAY_REFRESH_TOKEN)
 
-    res.cookie(this.REFRESH_TOKEN_NAME, refreshToken, {
+    res.cookie(this.REFRESH_TOKEN_NAME, '', {
       httpOnly: true,
       domain: 'localhost',
       expires: new Date(0),
@@ -82,5 +97,7 @@ export class AuthService {
       sameSite: 'none',
     })
   }
+
+
 
 }
