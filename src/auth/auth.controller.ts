@@ -11,7 +11,7 @@ import {
 } from "@nestjs/common";
 import { AuthService } from './auth.service';
 import { AuthDto } from "./dto/auth.dto";
-import { Response, response } from "express";
+import { Request, Response, response } from "express";
 
 @Controller('auth')
 export class AuthController {
@@ -46,6 +46,9 @@ export class AuthController {
       this.authService.removeRefreshTokenToResponse(res)
       throw new UnauthorizedException('Refresh token not passed')
     }
+
+    const {refreshToken, ...response} = await this.authService.getNewTokens(refreshTokenFromCookies)
+    this.authService.addRefreshTokenToResponse(res, refreshToken)
     return response
   }
 

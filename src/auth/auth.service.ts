@@ -38,7 +38,7 @@ export class AuthService {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {password, ...user} = await this.userService.getById(res.id)
-    const tokens = await this.issueTokens(user.id)
+    const tokens = this.issueTokens(user.id)
     return {
       user, ...tokens
     }
