@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from "../prisma.service";
 import { TimeBlockDto } from "./dto/time-block.dto";
-import { AuthDto } from "../auth/dto/auth.dto";
-import { hash } from "argon2";
-import { UserDto } from "../user/dto/user.dto";
 
 @Injectable()
 export class TimeBlockService {

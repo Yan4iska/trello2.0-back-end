@@ -24,7 +24,7 @@ export class TaskController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put()
+  @Put(':id')
   @Auth()
   async updateTask(
     @Body() dto: TaskDto,

@@ -42,7 +42,7 @@ export class UserService {
     const todayStart = startOfDay(new Date())
     const weekStart = startOfDay(subDays(new Date(), 7))
 
-    const todayTasks = this.prisma.task.count({
+    const todayTasks = await this.prisma.task.count({
       where: {
         userId: id,
         createdAt: {
@@ -51,7 +51,7 @@ export class UserService {
       }
     })
 
-    const weekTasks = this.prisma.task.count({
+    const weekTasks = await this.prisma.task.count({
       where: {
         userId: id,
         createdAt: {
