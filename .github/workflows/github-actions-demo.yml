@@ -42,7 +42,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: setup, build
     strategy:
       matrix:
         node-version: [20.x]
